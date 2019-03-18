@@ -1,17 +1,18 @@
 #include "pch.h"
 #include "Allocator.h"
+#include <iostream>
 
 #include <cassert>
 
 
-Allocator::Allocator(size_t size, void* memory_block): size(size), memory_block(memory_block)
+Allocator::Allocator(size_t size, void* memory_block): blocksize(size), memory_block(memory_block)
 {
 }
 
 
 Allocator::~Allocator()
 {
-	assert(memory_block == nullptr && size == 0 && number_allocations == 0 && used_memory == 0);
+	assert(memory_block == nullptr && blocksize == 0 && number_allocations == 0 && used_memory == 0);
 }
 
 void* Allocator::get_memory_block()
@@ -21,7 +22,7 @@ void* Allocator::get_memory_block()
 
 size_t Allocator::get_size()
 {
-	return size;
+	return blocksize;
 }
 
 size_t Allocator::get_number_allocations()
@@ -32,4 +33,18 @@ size_t Allocator::get_number_allocations()
 size_t Allocator::get_used_memory()
 {
 	return size_t();
+}
+
+namespace Memory {
+
+	inline uint8_t alignForwardAdjustment(void* p, uint8_t alignment) {
+
+		uint8_t&& offset = reinterpret_cast<uint8_t>(p) & (alignment - 1);
+		uint8_t&& inverse_offset = alignment - offset;
+
+		//Modulo alignment
+		inverse_offset -= alignment * (inverse_offset == alignment);
+		
+		return inverse_offset;
+	}
 }

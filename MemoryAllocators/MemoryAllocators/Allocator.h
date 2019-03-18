@@ -1,13 +1,19 @@
 #pragma once
+#include <inttypes.h>
 class Allocator
 {
 public:
 	
 	Allocator(size_t size, void* memory_block);
 	virtual ~Allocator();
+	Allocator(const Allocator& alloc)				= delete;
+	Allocator(Allocator&& alloc)					= delete;
+	Allocator& operator= (const Allocator& alloc)	= delete;
+	Allocator& operator= (Allocator&& alloc)		= delete;
 
 	virtual void*	allocate(size_t size, size_t alignment) = 0;
 	virtual void	deallocate(void* p) = 0;
+	virtual void	clear() = 0;
 
 	void*			get_memory_block();
 	size_t			get_size();
@@ -17,13 +23,13 @@ public:
 protected:
 
 	void*			memory_block;
-	size_t			size;
+	size_t			blocksize;
 	size_t			number_allocations = 0;
 	size_t			used_memory = 0;
 };
 
 
-namespace Allocation
+namespace Memory
 {
 	template <typename T> 
 	T* allocate(Allocator& allocator) {
@@ -44,22 +50,7 @@ namespace Allocation
 		allocator.deallocate(&object);
 	}
 
-
-
-	template <typename T>
-	T* allocateArray(Allocator& allocator, size_t length) {
-
-		uint8_t padding = sizeof(size_t) - (sizeof(T) * length) % sizeof(size_t);
-
-		T* p = Allocator.allocate(sizeof(T) * length + padding, alignof(T));
-	}
-
-	template <typename T>
-	void deallocateArray(Allocator& allocator, T* array) {
-
-		object.~T();
-		allocator.deallocate(&object);
-	}
+	inline uint8_t alignForwardAdjustment(void* p, uint8_t alignment);
 
 };
 
