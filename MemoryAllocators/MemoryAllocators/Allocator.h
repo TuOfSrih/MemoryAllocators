@@ -4,7 +4,7 @@ class Allocator
 {
 public:
 	
-	Allocator(size_t size, void* memory_block);
+	Allocator(size_t blocksize, void* memory_block);
 	virtual ~Allocator();
 	Allocator(const Allocator& alloc)				= delete;
 	Allocator(Allocator&& alloc)					= delete;
@@ -50,7 +50,7 @@ namespace Memory
 		allocator.deallocate(&object);
 	}
 
-	inline uint8_t alignForwardAdjustment(void* p, uint8_t alignment);
+	uint8_t alignForwardAdjustment(void* p, uint8_t alignment);
 
 };
 

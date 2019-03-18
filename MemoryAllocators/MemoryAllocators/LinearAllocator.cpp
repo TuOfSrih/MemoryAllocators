@@ -4,13 +4,15 @@
 #include <iostream>
 
 
-LinearAllocator::LinearAllocator(size_t size, void* start) : Allocator(size, start), current(start)
+LinearAllocator::LinearAllocator(size_t blocksize, void* start) : Allocator(blocksize, start), current(start)
 {
+	assert(blocksize);
 }
 
 
 LinearAllocator::~LinearAllocator()
 {
+	current = nullptr;
 }
 
 void* LinearAllocator::allocate(size_t size, size_t alignment)

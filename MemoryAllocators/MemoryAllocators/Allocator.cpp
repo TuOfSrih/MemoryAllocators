@@ -5,8 +5,9 @@
 #include <cassert>
 
 
-Allocator::Allocator(size_t size, void* memory_block): blocksize(size), memory_block(memory_block)
+Allocator::Allocator(size_t blocksize, void* memory_block): blocksize(blocksize), memory_block(memory_block)
 {
+
 }
 
 
@@ -35,9 +36,9 @@ size_t Allocator::get_used_memory()
 	return size_t();
 }
 
-namespace Memory {
+//namespace Memory {
 
-	inline uint8_t alignForwardAdjustment(void* p, uint8_t alignment) {
+	uint8_t Memory::alignForwardAdjustment(void* p, uint8_t alignment) {
 
 		uint8_t&& offset = reinterpret_cast<uint8_t>(p) & (alignment - 1);
 		uint8_t&& inverse_offset = alignment - offset;
@@ -47,4 +48,4 @@ namespace Memory {
 		
 		return inverse_offset;
 	}
-}
+//}
