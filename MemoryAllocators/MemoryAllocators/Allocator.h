@@ -5,6 +5,7 @@ class Allocator
 public:
 	
 	Allocator(size_t blocksize, void* memory_block);
+	Allocator(size_t blocksize);
 	virtual ~Allocator();
 	Allocator(const Allocator& alloc)				= delete;
 	Allocator(Allocator&& alloc)					= delete;

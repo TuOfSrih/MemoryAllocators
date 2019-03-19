@@ -4,6 +4,7 @@ class LinearAllocator :	public Allocator {
 
 public:
 	LinearAllocator(size_t blocksize, void* start);
+	LinearAllocator(size_t blocksize);
 	~LinearAllocator();
 
 	void* allocate(size_t size, size_t alignment) override;

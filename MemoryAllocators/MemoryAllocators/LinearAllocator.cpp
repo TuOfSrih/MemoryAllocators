@@ -4,15 +4,24 @@
 #include <iostream>
 
 
-LinearAllocator::LinearAllocator(size_t blocksize, void* start) : Allocator(blocksize, start), current(start)
+LinearAllocator::LinearAllocator(size_t blocksize, void* memory_block) : Allocator(blocksize, memory_block), current(memory_block)
 {
 	assert(blocksize);
+}
+
+LinearAllocator::LinearAllocator(size_t blocksize) : Allocator(blocksize)
+{
+	assert(blocksize);
+
+	current = memory_block = malloc(blocksize);
 }
 
 
 LinearAllocator::~LinearAllocator()
 {
 	current = nullptr;
+	number_allocations = 0;
+	used_memory = 0;
 }
 
 void* LinearAllocator::allocate(size_t size, size_t alignment)
