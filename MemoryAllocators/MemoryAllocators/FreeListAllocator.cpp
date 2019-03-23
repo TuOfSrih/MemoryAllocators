@@ -44,15 +44,11 @@ void* FreeListAllocator::allocate(const size_t size, const size_t alignment)
 		void* header_address = reinterpret_cast<void*>(reinterpret_cast<size_t>(allocation_address) - sizeof(AllocationHeader));
 		size_t total_size = size + adjustment;
 
-		//Entire free block is used
+		//Entire free block is used or just a part
 		if (suitable_block->size - total_size <= sizeof(AllocationHeader) + 1) {
 
-		} else {
-			
-			//Write new free block
-			FreeBlock* new_free_block = reinterpret_cast<FreeBlock*>(reinterpret_cast<size_t>(allocation_address) + size);
-			new_free_block->size = suitable_block->size - size - adjustment;
-			new_free_block->next = suitable_block->next;
+			//Allocate the entire block
+			total_size = suitable_block->size;
 
 			//Update start of blocklist or previous block
 			if (previous_block == nullptr) {
@@ -61,23 +57,34 @@ void* FreeListAllocator::allocate(const size_t size, const size_t alignment)
 			}
 			else {
 
+				previous_block->next = suitable_block->next;
+			}
+		}
+		else {
+
+			//Write a new free block
+			FreeBlock* new_free_block = reinterpret_cast<FreeBlock*>(reinterpret_cast<size_t>(allocation_address) + size);
+			new_free_block->size = suitable_block->size - total_size;
+			new_free_block->next = suitable_block->next;
+
+			//Update start of blocklist or previous block
+			if (previous_block == nullptr) {
+
+				free_blocks = new_free_block;
+			}
+			else {
+
 				previous_block->next = new_free_block;
 			}
-
-			
 		}
-
-		
-
-		
 
 		//Write allocation header
 		AllocationHeader* header = reinterpret_cast<AllocationHeader*>(header_address);
 		header->adjustment = adjustment;
-		header->size = size;
+		header->size = total_size;
 
 		number_allocations++;
-		used_memory += size;
+		used_memory += total_size;
 
 		return allocation_address;
 	}
