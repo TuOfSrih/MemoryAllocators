@@ -24,8 +24,8 @@ public:
 
 protected:
 
-	void*		memory_block;
-	size_t	blocksize;
+	void*			memory_block;
+	size_t			blocksize;
 	size_t			number_allocations = 0;
 	size_t			used_memory = 0;
 };
