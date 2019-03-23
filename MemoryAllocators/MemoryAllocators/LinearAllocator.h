@@ -3,13 +3,13 @@
 class LinearAllocator :	public Allocator {
 
 public:
-	LinearAllocator(size_t blocksize, void* start);
-	LinearAllocator(size_t blocksize);
+	LinearAllocator(const size_t blocksize, void* memory_block);
+	LinearAllocator(const size_t blocksize);
 	~LinearAllocator();
 
-	void* allocate(size_t size, size_t alignment) override;
-	void  deallocate(void* p) override;
-	void  clear();
+	void* allocate(const size_t size, const size_t alignment) override;
+	void  deallocate(const void* p) override;
+	void  clear() override;
 
 private:
 

@@ -43,6 +43,7 @@ int main()
 	auto start_lin = std::chrono::high_resolution_clock::now();
 	LinearAllocator linAlloc(TESTSIZE);
 	for (int i = 0; i < 1638400; ++i) {
+		
 		linAlloc.allocate(sizeof(Test<4>), alignof(Test<4>));
 		//vec.at(i) = Memory::allocate<Test>(linAlloc);
 		//std::cout << "Allocation: " << i << ": " << vec.at(i) << std::endl;
