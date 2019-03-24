@@ -24,6 +24,8 @@ FreeListAllocator::~FreeListAllocator()
 
 void* FreeListAllocator::allocate(const size_t size, const size_t alignment)
 {
+	assert(size && alignment);
+
 	FreeBlock* suitable_block = free_blocks;
 	FreeBlock* previous_block = nullptr;
 
@@ -96,6 +98,63 @@ void* FreeListAllocator::allocate(const size_t size, const size_t alignment)
 
 void FreeListAllocator::deallocate(const void* p)
 {
+	assert(p);
+	
+	//Acquire important pointers
+	const AllocationHeader* header = reinterpret_cast<AllocationHeader*>((reinterpret_cast<size_t>(p) - sizeof(AllocationHeader)));
+	void* const block_start = reinterpret_cast<void*>(reinterpret_cast<size_t>(p) - header->adjustment);
+
+	FreeBlock* next_block = free_blocks;
+	FreeBlock* previous_block = nullptr;
+
+	//Find previous and next free block wrt. to deallocation
+	while (next_block <= block_start && previous_block != nullptr) {
+
+		previous_block = next_block;
+		next_block = next_block->next;
+	}
+
+	FreeBlock* new_free_block = reinterpret_cast<FreeBlock*>(block_start);
+
+	//Deallocation at the start or somewhere else
+	if (previous_block == nullptr) {
+
+		next_block = reinterpret_cast<FreeBlock*>(free_blocks);
+		free_blocks = new_free_block;
+		new_free_block->size = header->size;
+		
+	}
+	else {
+
+		//Current block is at the start of an allocated block
+		if (reinterpret_cast<size_t>(previous_block) + previous_block->size == reinterpret_cast<size_t>(new_free_block)) {
+
+			//Merge with previous block
+			new_free_block = previous_block;
+			new_free_block->size += header->size;
+		}
+		else {
+
+			//Simply set size
+			new_free_block->size = header->size;
+		}
+	}
+
+	//Current Block is at the end of an allocated block
+	if (reinterpret_cast<size_t>(new_free_block) + header->size == reinterpret_cast<size_t>(next_block) ){
+
+		//Merge with next block
+		new_free_block->size += next_block->size;
+		new_free_block->next = next_block->next;
+	}
+	else {
+
+		//Simply set next
+		new_free_block->next = next_block;
+	}
+	//Update tracking stats
+	number_allocations--;
+	used_memory -= header->size;
 }
 
 void FreeListAllocator::clear()
