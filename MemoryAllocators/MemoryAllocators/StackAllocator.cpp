@@ -18,7 +18,6 @@ StackAllocator::StackAllocator(const size_t blocksize, void* memory_block): Allo
 
 StackAllocator::StackAllocator(const size_t blocksize): Allocator(blocksize)
 {
-	top = memory_block = malloc(blocksize);
 }
 
 StackAllocator::~StackAllocator()
@@ -51,7 +50,7 @@ void* StackAllocator::allocate(const size_t size, const size_t alignment)
 	return adjustedAdress;
 }
 
-void StackAllocator::deallocate(const void* p)
+void StackAllocator::deallocate(void* p)
 {
 	assert(p && p == last_allocation);
 

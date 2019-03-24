@@ -16,7 +16,7 @@ public:
 	StackAllocator& operator= (StackAllocator&& alloc) = delete;
 
 	void* allocate(const size_t size, const size_t alignment) override;
-	void  deallocate(const void* p) override;
+	void  deallocate(void* p) override;
 	void  clear() override;
 
 	~StackAllocator();

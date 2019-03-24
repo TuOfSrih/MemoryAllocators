@@ -13,9 +13,6 @@ FreeListAllocator::FreeListAllocator(const size_t blocksize, void* memory_block)
 
 FreeListAllocator::FreeListAllocator(const size_t blocksize) : Allocator(blocksize)
 {
-	assert(blocksize);
-
-
 }
 
 FreeListAllocator::~FreeListAllocator()
@@ -96,7 +93,7 @@ void* FreeListAllocator::allocate(const size_t size, const size_t alignment)
 
 }
 
-void FreeListAllocator::deallocate(const void* p)
+void FreeListAllocator::deallocate(void* p)
 {
 	assert(p);
 	

@@ -14,7 +14,7 @@ public:
 	Allocator& operator= (Allocator&& alloc)		= delete;
 
 	virtual void*	allocate(const size_t size, const size_t alignment) = 0;
-	virtual void	deallocate(const void* p) = 0;
+	virtual void	deallocate(void* p) = 0;
 	virtual void	clear() = 0;
 
 	void*			get_memory_block() const;

@@ -10,7 +10,6 @@ LinearAllocator::LinearAllocator(const size_t blocksize, void* memory_block) : A
 
 LinearAllocator::LinearAllocator(const size_t blocksize) : Allocator(blocksize)
 {
-	current = memory_block = malloc(blocksize);
 
 	std::cout << "LinAlloc Constructor" << std::endl;
 }
@@ -40,7 +39,7 @@ void* LinearAllocator::allocate(const size_t size, const size_t alignment)
 	return adjustedAdress;
 }
 
-void LinearAllocator::deallocate(const void* p)
+void LinearAllocator::deallocate(void* p)
 {
 	std::cerr << "Cannot deallocate single allocation with linear allocator" << std::endl;
 	assert(false);
