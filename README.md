@@ -14,13 +14,13 @@ The Project contains a:
 - [ ] Tested for correctness
 - [ ] Tested performance
 
-## Pool Allocator
+## Freelist Allocator
 
 - [x] Implemented
 - [ ] Tested for correctness
 - [ ] Tested performance
 
-## Freelist Allocator
+## Pool Allocator
 
 - [x] Implemented
 - [ ] Tested for correctness
@@ -28,7 +28,7 @@ The Project contains a:
 
 ## Proxy Allocator
 
-- [ ] Implemented
+- [x] Implemented
 - [ ] Tested for correctness
 - [ ] Tested performance
 
