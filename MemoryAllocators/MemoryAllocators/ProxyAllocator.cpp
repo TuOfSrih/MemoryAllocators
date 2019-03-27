@@ -38,17 +38,17 @@ void ProxyAllocator::clear()
 	allocator.clear();
 }
 
-void ProxyAllocator::registerAllocateCallback(std::function<void*(const size_t, const size_t)>& func)
+void ProxyAllocator::registerAllocateCallback(std::function<void(const size_t, const size_t)> func)
 {
 	allocateCallbacks.push_back(func);
 }
 
-void ProxyAllocator::registerDeallocateCallback(std::function<void(void*)>& func)
+void ProxyAllocator::registerDeallocateCallback(std::function<void(void*)> func)
 {
 	deallocateCallbacks.push_back(func);
 }
 
-void ProxyAllocator::registerClearCallback(std::function<void()>& func)
+void ProxyAllocator::registerClearCallback(std::function<void()> func)
 {
 	clearCallbacks.push_back(func);
 }

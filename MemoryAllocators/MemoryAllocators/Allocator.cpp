@@ -14,7 +14,6 @@ Allocator::Allocator(const size_t blocksize) : blocksize(blocksize)
 {
 	memory_block = malloc(blocksize);
 	assert(blocksize && memory_block);
-	std::cout << "Alloc Constructor" << std::endl;
 }
 
 
@@ -72,10 +71,10 @@ uint8_t Memory::alignForwardAdjustmentWithHeader(const void* p, const uint8_t al
 	if (adjustment < headersize) {
 
 		uint8_t additional_memory = headersize - adjustment;
-		adjustment += alignment * additional_memory /adjustment;
+		adjustment += alignment * additional_memory / alignment;
 
 		//if (additional_memory % alignment)==0 add alignment onto adjustment
-		adjustment += (additional_memory % alignment == 0) * alignment;
+		adjustment += (additional_memory % alignment) * alignment;
 	}
 
 	return adjustment;

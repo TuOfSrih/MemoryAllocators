@@ -19,7 +19,7 @@ void PoolAllocator::cleanSetup(const size_t object_size, const uint8_t object_al
 	*current = nullptr;
 }
 
-PoolAllocator::PoolAllocator(const size_t object_size, const uint8_t object_alignment, const size_t blocksize, void* memory_block) : Allocator(blocksize, memory_block)
+PoolAllocator::PoolAllocator(const size_t blocksize, void* memory_block, const size_t object_size, const uint8_t object_alignment) : Allocator(blocksize, memory_block)
 #if _DEBUG
 	, object_size(object_size), object_alignment(object_alignment)
 #endif 
@@ -28,7 +28,7 @@ PoolAllocator::PoolAllocator(const size_t object_size, const uint8_t object_alig
 	cleanSetup(object_size, object_alignment, blocksize);
 }
 
-PoolAllocator::PoolAllocator(const size_t object_size, const uint8_t object_alignment, const size_t blocksize) : Allocator(blocksize)
+PoolAllocator::PoolAllocator(const size_t blocksize, const size_t object_size, const uint8_t object_alignment) : Allocator(blocksize)
 #if _DEBUG
 , object_size(object_size), object_alignment(object_alignment)
 #endif 

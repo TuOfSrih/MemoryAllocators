@@ -5,18 +5,20 @@
 
 struct AllocationHeader {
 	
-	uint8_t adjustment;
 #if _DEBUG
 	void* previous_address;
 #endif
+	uint8_t adjustment;
+
 };
 
 
 StackAllocator::StackAllocator(const size_t blocksize, void* memory_block): Allocator(blocksize, memory_block)
 {
+	assert(false);
 }
 
-StackAllocator::StackAllocator(const size_t blocksize): Allocator(blocksize)
+StackAllocator::StackAllocator(const size_t blocksize): Allocator(blocksize), top(memory_block)
 {
 }
 
@@ -39,8 +41,8 @@ void* StackAllocator::allocate(const size_t size, const size_t alignment)
 	header->adjustment = adjust;
 
 #if _DEBUG
-	header->previous_address = top;
-	last_allocation = adjustedAdress;
+	header->previous_address = previous_allocation;
+	previous_allocation = adjustedAdress;
 #endif
 
 	top = reinterpret_cast<void*>(reinterpret_cast<size_t>(adjustedAdress) + size);
@@ -52,14 +54,14 @@ void* StackAllocator::allocate(const size_t size, const size_t alignment)
 
 void StackAllocator::deallocate(void* p)
 {
-	assert(p && p == last_allocation);
+	assert(p && p == previous_allocation);
 
-	const AllocationHeader* header = reinterpret_cast<const AllocationHeader*>(p) - sizeof(AllocationHeader);
+	const AllocationHeader* header = reinterpret_cast<const AllocationHeader*>(reinterpret_cast<size_t>(p) - sizeof(AllocationHeader));
 	used_memory -= reinterpret_cast<size_t>(top) - reinterpret_cast<size_t>(p) + header->adjustment;
 	top = reinterpret_cast<void*>(reinterpret_cast<size_t>(p) - header->adjustment);
 
 #if _DEBUG
-	last_allocation = header->previous_address;
+	previous_allocation = header->previous_address;
 #endif
 
 	number_allocations--;

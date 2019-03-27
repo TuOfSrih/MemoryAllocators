@@ -6,12 +6,12 @@
 
 LinearAllocator::LinearAllocator(const size_t blocksize, void* memory_block) : Allocator(blocksize, memory_block), current(memory_block)
 {
+	assert(false);
 }
 
-LinearAllocator::LinearAllocator(const size_t blocksize) : Allocator(blocksize)
+LinearAllocator::LinearAllocator(const size_t blocksize) : Allocator(blocksize), current(memory_block)
 {
 
-	std::cout << "LinAlloc Constructor" << std::endl;
 }
 
 

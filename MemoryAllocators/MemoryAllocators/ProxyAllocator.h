@@ -17,9 +17,9 @@ public:
 	void  deallocate(void* p) override;
 	void  clear() override;
 
-	void registerAllocateCallback(std::function<void*(const size_t, const size_t)>& func);
-	void registerDeallocateCallback(std::function<void(void*)>& func);
-	void registerClearCallback(std::function<void()>& func);
+	void registerAllocateCallback(std::function<void(const size_t, const size_t)> func);
+	void registerDeallocateCallback(std::function<void(void*)> func);
+	void registerClearCallback(std::function<void()> func);
 	
 	
 
@@ -29,7 +29,7 @@ private:
 
 	Allocator& allocator;
 
-	std::vector<std::function<void*(const size_t, const size_t)>> allocateCallbacks;
+	std::vector<std::function<void(const size_t, const size_t)>> allocateCallbacks;
 	std::vector<std::function<void(void*)>> deallocateCallbacks;
 	std::vector<std::function<void()>> clearCallbacks;
 	

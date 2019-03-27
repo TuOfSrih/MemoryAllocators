@@ -25,7 +25,7 @@ private:
 
 	void* top;
 #if _DEBUG
-	void* last_allocation;
+	void* previous_allocation;
 #endif
 };
 
