@@ -5,7 +5,7 @@
 class ProxyAllocator : public Allocator
 {
 public:
-	ProxyAllocator(const size_t blocksize, void* memory_block, Allocator& allocator);
+	ProxyAllocator(const size_t blocksize, void* const memory_block, Allocator& allocator);
 	ProxyAllocator(const size_t blocksize, Allocator& allocator);
 
 	ProxyAllocator(const ProxyAllocator& alloc) = delete;
@@ -14,12 +14,12 @@ public:
 	ProxyAllocator& operator= (ProxyAllocator&& alloc) = delete;
 
 	void* allocate(const size_t size, const size_t alignment) override;
-	void  deallocate(void* p) override;
+	void  deallocate(void* const p) override;
 	void  clear() override;
 
-	void registerAllocateCallback(std::function<void(const size_t, const size_t)> func);
-	void registerDeallocateCallback(std::function<void(void*)> func);
-	void registerClearCallback(std::function<void()> func);
+	void registerAllocateCallback(const std::function<void(const size_t, const size_t)> func);
+	void registerDeallocateCallback(const std::function<void(void*)> func);
+	void registerClearCallback(const std::function<void()> func);
 	
 	
 

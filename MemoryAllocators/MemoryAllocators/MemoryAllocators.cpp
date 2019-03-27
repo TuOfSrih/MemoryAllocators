@@ -193,10 +193,10 @@ void testProxy() {
 
 int main()
 {
-	//testLinear();
-	//testStack();
-	//testFreeList();
-	//testPool();
+	testLinear();
+	testStack();
+	testFreeList();
+	testPool();
 	testProxy();
 }
 

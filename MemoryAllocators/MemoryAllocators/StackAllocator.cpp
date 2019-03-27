@@ -13,7 +13,7 @@ struct AllocationHeader {
 };
 
 
-StackAllocator::StackAllocator(const size_t blocksize, void* memory_block): Allocator(blocksize, memory_block)
+StackAllocator::StackAllocator(const size_t blocksize, void* const memory_block): Allocator(blocksize, memory_block)
 {
 	assert(false);
 }
@@ -31,13 +31,13 @@ StackAllocator::~StackAllocator()
 
 void* StackAllocator::allocate(const size_t size, const size_t alignment)
 {
-	uint8_t adjust = Memory::alignForwardAdjustmentWithHeader(top, alignment, sizeof(AllocationHeader));
+	const uint8_t adjust = Memory::alignForwardAdjustmentWithHeader(top, alignment, sizeof(AllocationHeader));
 
 	if (adjust + size + used_memory > blocksize) return nullptr;
 
-	void* adjustedAdress = reinterpret_cast<void*>(reinterpret_cast<size_t>(top) + adjust);
+	void* const adjustedAdress = reinterpret_cast<void*>(reinterpret_cast<size_t>(top) + adjust);
 
-	AllocationHeader* header = reinterpret_cast<AllocationHeader*>(reinterpret_cast<size_t>(adjustedAdress) - sizeof(AllocationHeader));
+	AllocationHeader* const header = reinterpret_cast<AllocationHeader*>(reinterpret_cast<size_t>(adjustedAdress) - sizeof(AllocationHeader));
 	header->adjustment = adjust;
 
 #if _DEBUG
@@ -56,7 +56,7 @@ void StackAllocator::deallocate(void* p)
 {
 	assert(p && p == previous_allocation);
 
-	const AllocationHeader* header = reinterpret_cast<const AllocationHeader*>(reinterpret_cast<size_t>(p) - sizeof(AllocationHeader));
+	const AllocationHeader* const header = reinterpret_cast<const AllocationHeader*>(reinterpret_cast<size_t>(p) - sizeof(AllocationHeader));
 	used_memory -= reinterpret_cast<size_t>(top) - reinterpret_cast<size_t>(p) + header->adjustment;
 	top = reinterpret_cast<void*>(reinterpret_cast<size_t>(p) - header->adjustment);
 

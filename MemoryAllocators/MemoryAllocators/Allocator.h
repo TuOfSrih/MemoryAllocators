@@ -4,7 +4,7 @@ class Allocator
 {
 public:
 	
-	Allocator(const size_t blocksize, void* memory_block);
+	Allocator(const size_t blocksize, void* const memory_block);
 	Allocator(const size_t blocksize);
 	virtual ~Allocator();
 
@@ -14,7 +14,7 @@ public:
 	Allocator& operator= (Allocator&& alloc)		= delete;
 
 	virtual void*	allocate(const size_t size, const size_t alignment) = 0;
-	virtual void	deallocate(void* p) = 0;
+	virtual void	deallocate(void* const p) = 0;
 	virtual void	clear() = 0;
 
 	void*			get_memory_block() const;
@@ -24,8 +24,8 @@ public:
 
 protected:
 
-	void*			memory_block;
-	size_t			blocksize;
+	void* const		memory_block;
+	const size_t	blocksize;
 	size_t			number_allocations = 0;
 	size_t			used_memory = 0;
 };
@@ -51,10 +51,10 @@ namespace Memory
 		object.~T();
 		allocator.deallocate(&object);
 	}
-	void alignForward(void* p, const uint8_t alignment);
+	void* alignForward(void* p, const uint8_t alignment);
 
-	uint8_t alignForwardAdjustment(const void* p, const uint8_t alignment);
+	uint8_t alignForwardAdjustment(const void* const p, const uint8_t alignment);
 
-	uint8_t alignForwardAdjustmentWithHeader(const void* p, const uint8_t alignment, uint8_t headersize);
+	uint8_t alignForwardAdjustmentWithHeader(const void* const p, const uint8_t alignment, const uint8_t headersize);
 };
 

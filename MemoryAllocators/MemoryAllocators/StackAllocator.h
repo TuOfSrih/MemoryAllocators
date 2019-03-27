@@ -7,7 +7,7 @@ class StackAllocator : public Allocator
 {
 public:
 
-	StackAllocator(const size_t blocksize, void* memory_block);
+	StackAllocator(const size_t blocksize, void* const memory_block);
 	StackAllocator(const size_t blocksize);
 
 	StackAllocator(const StackAllocator& alloc) = delete;
@@ -16,7 +16,7 @@ public:
 	StackAllocator& operator= (StackAllocator&& alloc) = delete;
 
 	void* allocate(const size_t size, const size_t alignment) override;
-	void  deallocate(void* p) override;
+	void  deallocate(void* const p) override;
 	void  clear() override;
 
 	~StackAllocator();

@@ -5,7 +5,7 @@ class FreeListAllocator : public Allocator
 {
 public:
 
-	FreeListAllocator(const size_t blocksize, void* memory_block);
+	FreeListAllocator(const size_t blocksize, void* const memory_block);
 	FreeListAllocator(const size_t blocksize);
 
 	FreeListAllocator(const FreeListAllocator& alloc) = delete;
@@ -14,7 +14,7 @@ public:
 	FreeListAllocator& operator= (FreeListAllocator&& alloc) = delete;
 
 	void* allocate(const size_t size, const size_t alignment) override;
-	void  deallocate(void* p) override;
+	void  deallocate(void* const p) override;
 	void  clear() override;
 
 	~FreeListAllocator();

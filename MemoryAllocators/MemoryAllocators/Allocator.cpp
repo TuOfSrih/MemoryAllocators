@@ -5,17 +5,15 @@
 #include <cassert>
 
 
-Allocator::Allocator(const size_t blocksize, void* memory_block): blocksize(blocksize), memory_block(memory_block)
+Allocator::Allocator(const size_t blocksize, void* const memory_block): blocksize(blocksize), memory_block(memory_block)
 {
 	assert(blocksize && memory_block);
 }
 
-Allocator::Allocator(const size_t blocksize) : blocksize(blocksize)
+Allocator::Allocator(const size_t blocksize) : blocksize(blocksize), memory_block(malloc(blocksize))
 {
-	memory_block = malloc(blocksize);
 	assert(blocksize && memory_block);
 }
-
 
 Allocator::~Allocator()
 {
@@ -44,16 +42,16 @@ size_t Allocator::get_used_memory() const
 }
 
 
-void Memory::alignForward(void* p, const uint8_t alignment)
+void* Memory::alignForward(void* const p, const uint8_t alignment)
 {
-	p = reinterpret_cast<void*>((reinterpret_cast<size_t>(p) + alignment - 1) & (~(alignment - 1)));
+	return reinterpret_cast<void*>((reinterpret_cast<size_t>(p) + alignment - 1) & (~(alignment - 1)));
 }
 
-uint8_t Memory::alignForwardAdjustment(const void* p, const uint8_t alignment) {
+uint8_t Memory::alignForwardAdjustment(const void* const p, const uint8_t alignment) {
 
 	assert(p && alignment);
 
-	uint8_t offset = reinterpret_cast<uint8_t>(p) & (alignment - 1);
+	const uint8_t offset = reinterpret_cast<uint8_t>(p) & (alignment - 1);
 	uint8_t inverse_offset = alignment - offset;
 
 	//Modulo alignment
@@ -62,7 +60,7 @@ uint8_t Memory::alignForwardAdjustment(const void* p, const uint8_t alignment) {
 	return inverse_offset;
 }
 
-uint8_t Memory::alignForwardAdjustmentWithHeader(const void* p, const uint8_t alignment, uint8_t headersize) {
+uint8_t Memory::alignForwardAdjustmentWithHeader(const void* const p, const uint8_t alignment, const uint8_t headersize) {
 
 	assert(p && alignment && headersize);
 
@@ -70,7 +68,7 @@ uint8_t Memory::alignForwardAdjustmentWithHeader(const void* p, const uint8_t al
 
 	if (adjustment < headersize) {
 
-		uint8_t additional_memory = headersize - adjustment;
+		const uint8_t additional_memory = headersize - adjustment;
 		adjustment += alignment * additional_memory / alignment;
 
 		//if (additional_memory % alignment)==0 add alignment onto adjustment
