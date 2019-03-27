@@ -18,12 +18,48 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeListAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProxyAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MemoryAllocators.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StackAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeListAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProxyAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
